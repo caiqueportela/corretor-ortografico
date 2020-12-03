@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+    command: redis-server --requirepass Redis2020@Corrector!
+    ports:
+      - 6379:6379
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '2'
+#          memory: 4G
+#        reservations:
+#          memory: 1G
+  corrector-fatec-ia:
+    image: corrector-fatec-ia
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5001:5001
+    restart: unless-stopped
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '6'
+#          memory: 10G
+#        reservations:
+#          memory: 2G
