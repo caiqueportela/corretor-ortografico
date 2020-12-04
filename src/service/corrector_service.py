@@ -138,7 +138,7 @@ class CorrectorService:
 
         return word, frequency
 
-    def corrector_turbo(self, word):
+    def corrector_turbo(self, word, use_probability=True):
         methods = [
             'insert_letter',
             'delete_letter',
@@ -154,12 +154,15 @@ class CorrectorService:
 
         for method_name in methods:
             result = getattr(self, method_name)(slices)
-            occurrence = self.ocurrency_percentage(result)
-            if occurrence[1] >= min_percent:
-                return occurrence[0]
-            generated_words += result
 
-        return max(generated_words, key=self.probability)
+            if use_probability:
+                occurrence = self.ocurrency_percentage(result)
+                if occurrence[1] >= min_percent:
+                    return occurrence[0]
+                generated_words += result
+
+            possible_words = [word for word in generated_words if self.redis.dictionary_contains(word)]
+            return possible_words
 
     def evaluator(self, use_probability=True, debug=False):
         test_data = []

@@ -26,31 +26,21 @@ class RedisService:
         LogModel.log('RedisService persist_dataset Fim')
 
     def dictionary_retrieve(self):
-        LogModel.log('RedisService dictionary_retrieve Inicio')
         dictionary =  self.redis.smembers('dictionary')
-        LogModel.log('RedisService dictionary_retrieve Fim')
         return dictionary
 
     def dataset_retrieve(self):
-        LogModel.log('RedisService dataset_retrieve Inicio')
         dataset = self.redis.lrange('dataset', 0, -1)
-        LogModel.log('RedisService dataset_retrieve Fim')
         return dataset
 
     def dataset_count(self):
-        LogModel.log('RedisService dataset_count Inicio')
         dataset = self.redis.llen('dataset')
-        LogModel.log(f'RedisService dataset_count {dataset} Fim')
         return dataset
 
     def dictionary_count(self):
-        LogModel.log('RedisService dictionary_count Inicio')
         dictionary = self.redis.scard('dictionary')
-        LogModel.log(f'RedisService dictionary_count {dictionary} Fim')
         return dictionary
 
     def dictionary_contains(self, value):
-        LogModel.log('RedisService dictionary_contains Inicio')
         dictionary = self.redis.sismember('dictionary', value)
-        LogModel.log(f'RedisService dictionary_contains({value}) Fim')
         return dictionary

@@ -25,10 +25,10 @@ services:
       - .:/app
     depends_on:
       - redis
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: '6'
-#          memory: 10G
-#        reservations:
-#          memory: 2G
+    deploy:
+      resources:
+        limits:
+          cpus: '6'
+          memory: 10G
+        reservations:
+          memory: 2G
